@@ -46,11 +46,12 @@ require (
 	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	k8s.io/klog/v2 v2.20.0 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
 replace (
-	github.com/golang/glog => github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/coreos/bbolt => github.com/coreos/bbolt v1.3.3
+	github.com/golang/glog => github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
