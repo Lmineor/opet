@@ -5,15 +5,14 @@ import (
 	"time"
 )
 
-type Client struct{
+type Client struct {
 	*clientv3.Client
 }
 
-
-func NewClient(flag *Flags)(*Client, error){
+func NewClient(flag *Flags) (*Client, error) {
 	config := &clientv3.Config{
-		DialTimeout: time.Duration(flag.DialTimeout) * time.Second,
-		Endpoints: flag.EndPoints,
+		DialTimeout: 5 * time.Second,
+		Endpoints:   flag.EndPoints,
 	}
 	c, err := clientv3.New(*config)
 	if err != nil {
