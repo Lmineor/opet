@@ -13,7 +13,7 @@ type Server struct {
 
 func NewServer(flag *Flags) *Server {
 	router := initGinEngine(flag)
-	addr := fmt.Sprintf("%s:%s", flag.IP, flag.Port)
+	addr := fmt.Sprintf("%s:%d", flag.IP, flag.Port)
 	srv := &http.Server{
 		Addr:           addr,
 		Handler:        router,

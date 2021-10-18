@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"opet/cmd"
-	"opet/pkg/flag"
 	"opet/pkg/logs"
 	"os"
 	"time"
@@ -12,9 +11,7 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	flags := flag.NewFlags()
-
-	command := cmd.NewOpEtCmd(flags)
+	command := cmd.NewOpEtCmd()
 	logs.InitLogs()
 	defer logs.FlushLogs()
 	if err := cmd.Execute(command); err != nil {

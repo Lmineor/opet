@@ -1,7 +1,6 @@
-package common
-
+package api
 
 type KVBody struct {
-	Key string
+	Key   string
 	Value string
 }

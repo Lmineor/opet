@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	goflag "flag"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 	"opet/global"
@@ -10,13 +11,13 @@ import (
 	"os"
 )
 
-func NewOpEtCmd(flags *flag.Flags) *cobra.Command {
+func NewOpEtCmd() *cobra.Command {
+	flags := flag.NewFlags()
 	cmd := &cobra.Command{
 		Use:   "opet",
 		Short: "A server to operate etcd.",
 		Long:  `A easy test server to operate etcd which is a k, v based database.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-
 			flags.PrintAllFlags(cmd.Flags())
 
 			svr := initServer(flags)
@@ -33,7 +34,7 @@ func NewOpEtCmd(flags *flag.Flags) *cobra.Command {
 		},
 	}
 	addFlags(cmd, flags)
-	//goflag.Parse()
+	validateFlags(flags)
 	return cmd
 }
 
@@ -45,15 +46,15 @@ func Execute(cmd *cobra.Command) error {
 func addFlags(cmd *cobra.Command, of *flag.Flags) {
 	flags := cmd.PersistentFlags()
 	flags.SetNormalizeFunc(flag.WordSepNormalizeFunc)
-	flags.StringVarP(&of.Port, "port", "p", of.Port, "server's port")
-	flags.StringVar(&of.IP, "ip", of.IP, "server's ip")
-	flags.StringVar(&of.GinMode, "gin-mode", of.GinMode, "gi-mode")
-	//flags.StringVar(&of.LogDir, "lod-dir", of.LogDir, "the dir of logs.")
-	flags.StringSliceVar(&of.EndPoints, "endpoints", of.EndPoints, "the endpoint of etcd.")
-	flags.IntVar(&of.DialTimeout, "dial-timeout", of.DialTimeout, "dial-timeout")
-	//cmd.PersistentFlags().AddGoFlag()
-	//cmd.AddCommand(addCmd)
-	//cmd.AddCommand(initCmd)
+	of.AddFlags(flags)
+	flags.AddGoFlagSet(goflag.CommandLine)
+}
+
+func validateFlags(flags *flag.Flags) {
+	if len(flags.EndPoints) == 0 {
+		klog.Fatal("Endpoint cannot be empty.")
+		os.Exit(1)
+	}
 }
 
 type OpEt struct {

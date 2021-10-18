@@ -10,6 +10,7 @@ type Client struct {
 }
 
 func NewClient(flag *Flags) (*Client, error) {
+	//TLSConfig := tls.Config{ClientCAs: }
 	config := &clientv3.Config{
 		DialTimeout: 5 * time.Second,
 		Endpoints:   flag.EndPoints,

@@ -9,7 +9,6 @@ import (
 )
 
 type Flags struct {
-	LogDir string
 	EtcdFlags
 	ServerFlags
 }
@@ -27,7 +26,6 @@ func (f *Flags) PrintAllFlags(flags *pflag.FlagSet) {
 	flags.VisitAll(func(flag *pflag.Flag) {
 		klog.V(1).Infof("Flag: --%s=%q", flag.Name, flag.Value)
 	})
-
 }
 
 func NewFlags() *Flags {
@@ -35,6 +33,11 @@ func NewFlags() *Flags {
 		EtcdFlags:   EtcdFlags{etcd.NewFlags()},
 		ServerFlags: ServerFlags{server.NewFlags()},
 	}
+}
+
+func (f *Flags) AddFlags(flags *pflag.FlagSet) {
+	f.EtcdFlags.AddFlags(flags)
+	f.ServerFlags.AddFlag(flags)
 }
 
 type EtcdFlags struct {
