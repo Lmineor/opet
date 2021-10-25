@@ -5,7 +5,11 @@ import (
 	"net/http"
 )
 
-const AllGood = http.StatusOK
+const (
+	AllGood       = http.StatusOK
+	NotFound      = http.StatusNotFound
+	InternalError = http.StatusInternalServerError
+)
 
 type Response struct {
 	Data interface{} `json:"data"`
@@ -21,4 +25,12 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 
 func Success(data interface{}, message string, c *gin.Context) {
 	Result(AllGood, data, message, c)
+}
+
+func FailedResp(c *gin.Context) {
+	Result(NotFound, nil, "not found", c)
+}
+
+func ErrorResp(c *gin.Context) {
+	Result(InternalError, nil, "internal error", c)
 }
